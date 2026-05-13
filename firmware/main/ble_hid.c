@@ -6,13 +6,14 @@
 #include "esp_gatts_api.h"
 #include "esp_gatt_defs.h"
 #include "esp_hidd.h"
+#include "esp_event.h"
 
 static const char *TAG = "ble_hid";
 
 static esp_hidd_dev_t *hidd_dev = NULL;
 static esp_hidd_app_param_t app_param;
-static esp_hidd_qos_param_t both_qos;
-static bool connected = false;
+static esp_hidd_qos_param_t both_qos = { .service_type = ESP_HIDD_SERVICE_TYPE_BLE };
+static volatile bool connected = false;
 
 // HID report map for boot keyboard (8-byte input report)
 static const uint8_t hid_report_map[] = {
@@ -71,16 +72,18 @@ bool ble_hid_init(void)
     app_param.descriptor_list = NULL;
     app_param.descriptor_list_len = 0;
 
-    both_qos.service_type = ESP_HIDD_SERVICE_TYPE_BLE;
-
     ret = esp_hidd_dev_init(&app_param, &both_qos, &hidd_dev);
     if (ret != ESP_OK) {
         ESP_LOGE(TAG, "HID device init failed: %d", ret);
         return false;
     }
 
-    esp_hidd_dev_set_report_map(hidd_dev, ESP_HID_REPORT_TYPE_INPUT,
-                                hid_report_map, sizeof(hid_report_map));
+    ret = esp_hidd_dev_set_report_map(hidd_dev, ESP_HID_REPORT_TYPE_INPUT,
+                                       hid_report_map, sizeof(hid_report_map));
+    if (ret != ESP_OK) {
+        ESP_LOGE(TAG, "HID report map set failed: %d", ret);
+        return false;
+    }
 
     ret = esp_event_handler_register(ESP_HIDD_EVENTS, ESP_EVENT_ANY_ID,
                                      hidd_event_callback, NULL);
@@ -100,7 +103,7 @@ bool ble_hid_connected(void)
 
 bool ble_hid_send_report(uint8_t *report, size_t len)
 {
-    if (!connected || len < BLE_HID_REPORT_SIZE) return false;
+    if (!connected || len != BLE_HID_REPORT_SIZE) return false;
 
     esp_err_t ret = esp_hidd_dev_input_set(hidd_dev, 0, report, BLE_HID_REPORT_SIZE);
     if (ret != ESP_OK) {
