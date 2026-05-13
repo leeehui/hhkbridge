@@ -57,10 +57,7 @@ void app_main(void)
             }
         }
 
-        // Re-advertise if BLE disconnected
-        if (!ble_hid_connected()) {
-            // Bluedroid handles re-advertising automatically via HID device
-        }
+        // Bluedroid handles re-advertising automatically on disconnect
 
         // Periodic battery check
         TickType_t now = xTaskGetTickCount();
@@ -72,6 +69,6 @@ void app_main(void)
             }
         }
 
-        vTaskDelay(pdMS_TO_TICKS(1));
+        vTaskDelay(pdMS_TO_TICKS(5));
     }
 }
