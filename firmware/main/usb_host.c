@@ -23,7 +23,9 @@ static void hid_report_callback(hidh_report_info_t *info, uint8_t *data, int len
     report_ready = true;
     portEXIT_CRITICAL(&report_lock);
 
-    tuh_hid_receive_report(info->dev_addr, info->instance);
+    if (!tuh_hid_receive_report(info->dev_addr, info->instance)) {
+        ESP_LOGW(TAG, "Failed to re-queue HID report receive");
+    }
 }
 
 static void device_mount_callback(tuh_hid_mount_info_t *info)
