@@ -23,10 +23,10 @@ TPS61023 (U3) -- Boost converter 3.7V -> 5V:
   VOUT -> 5V_BOOST net
   EN -> GPIO4 (boost enable from ESP32)
 
-Power Mux (D1, D2 -- BAT54C dual Schottky diode):
-  5V_DIRECT (CHG_5V_IN) -> diode A anode
-  5V_BOOST (TPS61023 VOUT) -> diode B anode
-  diode A cathode + diode B cathode -> 5V_RAIL net
+Power Mux (D1 -- BAT54C dual common-cathode Schottky diode, one SOT-23):
+  5V_DIRECT (CHG_5V_IN) -> BAT54C pin 3 (anode A)
+  5V_BOOST (TPS61023 VOUT) -> BAT54C pin 1 (anode B)
+  BAT54C pin 2 (common cathode) -> 5V_RAIL net
 
 AMS1117-3.3 (U4) -- 3.3V LDO:
   VIN -> 5V_RAIL
