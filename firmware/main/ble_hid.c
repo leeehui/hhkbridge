@@ -72,7 +72,7 @@ bool ble_hid_init(void)
     app_param.descriptor_list = NULL;
     app_param.descriptor_list_len = 0;
 
-    ret = esp_hidd_dev_init(&app_param, &both_qos, &hidd_dev);
+    ret = esp_hidd_dev_init(&app_param, &both_qos, &both_qos, &hidd_dev);
     if (ret != ESP_OK) {
         ESP_LOGE(TAG, "HID device init failed: %d", ret);
         return false;

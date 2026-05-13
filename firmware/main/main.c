@@ -59,14 +59,12 @@ void app_main(void)
 
         // Bluedroid handles re-advertising automatically on disconnect
 
-        // Periodic battery check
+        // Periodic battery check (single ADC read)
         TickType_t now = xTaskGetTickCount();
         if ((now - last_battery_check) >= pdMS_TO_TICKS(BATTERY_CHECK_MS)) {
             last_battery_check = now;
             uint8_t level = power_battery_level();
-            if (power_is_low_battery()) {
-                ESP_LOGW(TAG, "Battery low: %d%%", level);
-            }
+            ESP_LOGI(TAG, "Battery: %d%%", level);
         }
 
         vTaskDelay(pdMS_TO_TICKS(5));
