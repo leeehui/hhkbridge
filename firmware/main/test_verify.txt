@@ -1,0 +1,11 @@
+HHKB Bridge Integration Test Results
+
+USB Enumeration:       [ ] PASS — VID/PID 0x04FE/0x0038
+BLE Advertising:       [ ] PASS — "HHKB Bridge" visible
+BLE Pair/Connect:      [ ] PASS — Serial: "BLE HID connected"
+Single Key:            [ ] PASS — 'a' appears
+Modifier Keys:         [ ] PASS — Ctrl+C triggers copy
+N-Key Rollover:        [ ] PASS — 6 keys register
+BLE Reconnect:         [ ] PASS — Auto-reconnect after host BT cycle
+USB Detach/Reattach:   [ ] PASS — Enumeration recovers
+Battery Reporting:     [ ] PASS — Level logged every 10s
