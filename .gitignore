@@ -1,0 +1,14 @@
+# ESP-IDF build output and generated config
+firmware/build/
+firmware/sdkconfig
+firmware/sdkconfig.old
+firmware/managed_components/
+firmware/.cache/
+firmware/dependencies.lock.bak
+
+# Editor / OS noise
+*.swp
+.DS_Store
+
+# Local agent scratch state
+.superpowers/
