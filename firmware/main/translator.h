@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include <stdbool.h>
 
 #define USB_HID_REPORT_SIZE 8
 #define BLE_HID_REPORT_SIZE 8

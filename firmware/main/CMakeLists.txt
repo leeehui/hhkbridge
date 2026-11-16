@@ -9,7 +9,9 @@ idf_component_register(
     REQUIRES
         nvs_flash
         bt
-        driver
-        esp_hidd
+        esp_hid
+        esp_event
         esp_adc
+        usb
+        usb_host_hid
 )
